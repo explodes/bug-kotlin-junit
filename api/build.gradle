@@ -50,6 +50,17 @@ android {
         splits.density.enable = false // ^
         aaptOptions.cruncherEnabled = false
     }
+
+    task copyTestClasses(type: Copy) {
+        from "build/tmp/kotlin-classes/devDebugUnitTest"
+        into "build/intermediates/classes/dev/debug"
+    }
+
+    task copySdkClasses(type: Copy) {
+        from "build/tmp/kotlin-classes/devDebug"
+        into "build/intermediates/classes/dev/debug"
+    }
+
 }
 
 dependencies {
