@@ -21,4 +21,20 @@ public class Bug {
 		assertNotNull(obj);
 	}
 
+	@Test
+	public void initToken_shouldNotTriggerNoClassDefFoundError() throws Exception {
+		// this triggers the bug
+		Token obj = new Token(new Date(), "jwt", "source", "source-name", "source-version");
+
+		assertNotNull(obj);
+	}
+
+	@Test
+	public void initLease_shouldNotTriggerNoClassDefFoundError() throws Exception {
+		// this triggers the bug
+		Lease obj = new Lease("lease-id", "name", new Date(), "mock://url");
+
+		assertNotNull(obj);
+	}
+
 }
