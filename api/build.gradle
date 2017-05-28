@@ -1,0 +1,79 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion rootProject.ext.sdkCompile
+    buildToolsVersion rootProject.ext.buildTools
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.sdkMin
+        targetSdkVersion rootProject.ext.sdkTarget
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.version
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions rootProject.ext.defaultFlavorDimension
+    productFlavors {
+        dev {
+            //minSdkVersion 21 // take advantage of the NEW multidex. Legacy multidex builds slowly.
+            //resConfigs ("en", "xxhdpi")
+            dimension rootProject.ext.defaultFlavorDimension
+        }
+        prod {
+            dimension rootProject.ext.defaultFlavorDimension
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+
+    // add -PdevBuild to your command line to take advantage of these dev build-speed boosts
+    // Settings > Build, Execution, Deployment > Compiler > Command-line Options
+    if (project.hasProperty('devBuild')) {
+        splits.abi.enable = false // not necessary for our app, but good to know as a speedup tip
+        splits.density.enable = false // ^
+        aaptOptions.cruncherEnabled = false
+    }
+}
+
+dependencies {
+    implementation project(':logging')
+
+    implementation rootProject.ext.kotlin
+
+    implementation rootProject.ext.annotations
+
+    implementation rootProject.ext.rxJava
+    implementation rootProject.ext.rxAndroid
+
+    implementation rootProject.ext.gson
+    implementation rootProject.ext.okhttp
+    implementation rootProject.ext.okhttpLogging
+    implementation rootProject.ext.retrofit
+    implementation rootProject.ext.retrofitRxJava
+    implementation rootProject.ext.retrofitGson
+
+    implementation rootProject.ext.deviceNames
+
+    testImplementation rootProject.ext.junit
+    testImplementation rootProject.ext.robolectric
+    testImplementation rootProject.ext.robolectricSupport
+    testImplementation rootProject.ext.robolectricOpengl
+    testImplementation rootProject.ext.mockito
+}

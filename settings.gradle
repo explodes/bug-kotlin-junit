@@ -1,0 +1,5 @@
+include ':app'
+include ':logging'
+include ':repo'
+include ':database'
+include ':api'

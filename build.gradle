@@ -1,0 +1,121 @@
+buildscript {
+    ext.kotlin_version = '1.1.2-4'
+    repositories {
+        maven { url 'https://maven.google.com' }
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.0-alpha2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.14.0'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+apply plugin: 'com.github.ben-manes.versions'
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url 'https://maven.google.com' }
+        mavenCentral()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+dependencyUpdates.resolutionStrategy = {
+    componentSelection { rules ->
+        rules.all { ComponentSelection selection ->
+            boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
+                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+            }
+            if (rejected) {
+                selection.reject('Release candidate')
+            }
+        }
+    }
+}
+
+ext {
+    applicationId = 'com.explod.android'
+    version = '1.0'
+    versionCode = 1
+
+    buildTools = '26.0.0-rc2'
+    sdkTarget = 25
+    sdkMin = 19
+    sdkCompile = sdkTarget
+
+    defaultFlavorDimension = "default"
+
+    kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    supportLibVersion = '26.0.0-alpha1'
+    appcompat = "com.android.support:appcompat-v7:${supportLibVersion}"
+    support = "com.android.support:support-v4:${supportLibVersion}"
+    annotations = "com.android.support:support-annotations:${supportLibVersion}"
+    design = "com.android.support:design:${supportLibVersion}"
+    recycler = "com.android.support:recyclerview-v7:${supportLibVersion}"
+    constraint = 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    roomVersion = '1.0.0-alpha1'
+    room = "android.arch.persistence.room:runtime:${roomVersion}"
+    roomRxJava = "android.arch.persistence.room:rxjava2:${roomVersion}"
+    roomCompiler = "android.arch.persistence.room:compiler:${roomVersion}"
+
+    picasso = 'com.squareup.picasso:picasso:2.5.2'
+
+    okhttp = 'com.squareup.okhttp3:okhttp:3.8.0'
+    okhttpLogging = 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+    retrofit = 'com.squareup.retrofit2:retrofit:2.3.0'
+    retrofitRxJava = 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    retrofitGson = 'com.squareup.retrofit2:converter-gson:2.3.0'
+    gson = 'com.google.code.gson:gson:2.8.0'
+
+    rxJava = 'io.reactivex.rxjava2:rxjava:2.1.0'
+    rxAndroid = 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    rxLifecycleVersion = '2.0.1'
+    rxLifecycle = "com.trello.rxlifecycle2:rxlifecycle:${rxLifecycleVersion}"
+    rxLifecycleAndroid = "com.trello.rxlifecycle2:rxlifecycle-android:${rxLifecycleVersion}"
+    rxLifecycleComponents = "com.trello.rxlifecycle2:rxlifecycle-components:${rxLifecycleVersion}"
+    rxLifecycleComponents = "com.trello.rxlifecycle2:rxlifecycle-kotlin:${rxLifecycleVersion}"
+
+    butterknife = 'com.jakewharton:butterknife:8.6.0'
+    butterknifeCompiler = 'com.jakewharton:butterknife-compiler:8.6.0'
+
+    dagger = 'com.google.dagger:dagger:2.11'
+    daggerCompiler = 'com.google.dagger:dagger-compiler:2.11'
+
+    jodaTime = 'net.danlew:android.joda:2.9.9'
+    prettyTime = 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
+
+    mosby = 'com.hannesdorfmann.mosby:mvp:2.0.1'
+    mosbyViewState = 'com.hannesdorfmann.mosby:viewstate:2.0.1'
+
+    deviceNames = 'com.jaredrummler:android-device-names:1.1.3'
+
+    crashlytics = 'com.crashlytics.sdk.android:crashlytics:2.6.8@aar'
+
+    junit = 'junit:junit:4.12'
+    junitRunner = 'com.android.support.test:runner:0.5'
+    junitRules = 'com.android.support.test:rules:0.5'
+
+    robolectric = 'org.robolectric:robolectric:3.3.2'
+    robolectricSupport = 'org.robolectric:shadows-support-v4:3.3.2'
+    robolectricOpengl = 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
+
+    mockito = 'org.mockito:mockito-core:1.10.19'
+    dexmaker = 'com.crittercism.dexmaker:dexmaker:1.4'
+    dexmakerDx = 'com.crittercism.dexmaker:dexmaker-dx:1.4'
+    dexmakerMockito = 'com.crittercism.dexmaker:dexmaker-mockito:1.4'
+
+    espresso = 'com.android.support.test.espresso:espresso-core:2.2.2'
+    espressoContrib = 'com.android.support.test.espresso:espresso-contrib:2.2.2'
+    espressoIntents = 'com.android.support.test.espresso:espresso-intents:2.2.2'
+
+}
