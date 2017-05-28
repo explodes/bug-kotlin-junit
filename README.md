@@ -1,5 +1,39 @@
 # Repository to replicate NoClassDefFoundError
 
+# Fixed!
+
+The solution was to add
+
+```groovy
+    task copyTestClasses(type: Copy) {
+        from "build/tmp/kotlin-classes/devDebugUnitTest"
+        into "build/intermediates/classes/dev/debug"
+    }
+
+    task copySdkClasses(type: Copy) {
+        from "build/tmp/kotlin-classes/devDebug"
+        into "build/intermediates/classes/dev/debug"
+    }
+```
+
+to the module's `build.gradle` and run these tasks after `:api:assembleDevDebug`
+
+This is a change to the previous workaround which included the following tasks:
+
+```groovy
+    task copyTestClasses(type: Copy) {
+        from "build/tmp/kotlin-classes/devDebugUnitTest"
+        into "build/intermediates/classes/devDebug" // subtle change here
+    }
+
+    task copySdkClasses(type: Copy) {
+        from "build/tmp/kotlin-classes/devDebug"
+        into "build/intermediates/classes/devDebug" // and a subtle change here
+    }
+```
+
+# Preface
+
 I'm hoping this provides an easy way to interested parties in replicating a bug that is making my unit testing fail. 
 
 ![Screenshot](https://i.imgur.com/aF19YJx.png)
