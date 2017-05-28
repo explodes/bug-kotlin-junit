@@ -2,6 +2,20 @@
 
 I'm hoping this provides an easy way to interested parties in replicating a bug that is making my unit testing fail. 
 
+![Screenshot](https://i.imgur.com/aF19YJx.png)
+
+`com.explod.api.UserCreated` is a class defined in `UserDto.kt` as:
+
+```kotlin
+data class UserCreated(
+        val username: String,
+        val email: String,
+        val created: Date
+)
+```
+
+Regardless of the Kotlin data class being initialized in the test code, the same error occurs.
+
 ## Usage
 
 Use the `Replicate NoClassDefFoundError` run configuration to see the bug.
